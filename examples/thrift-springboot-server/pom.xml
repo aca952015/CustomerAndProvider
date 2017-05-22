@@ -25,15 +25,19 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.apache.thrift</groupId>
+			<artifactId>libthrift</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
 			<artifactId>thrift-springboot-service</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+		<dependency>
+			<groupId>com.istudio</groupId>
+			<artifactId>thrift-springboot-provider</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -44,6 +48,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

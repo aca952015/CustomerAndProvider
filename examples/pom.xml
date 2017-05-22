@@ -4,9 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.istudio</groupId>
+    <parent>
+        <groupId>com.istudio</groupId>
+        <artifactId>thrift-springboot</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>thrift-springboot-examples</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -16,16 +20,6 @@
         <module>thrift-springboot-client</module>
     </modules>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
-        <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
-        <lombok.version>1.16.16</lombok.version>
-        <thrift.version>0.10.0</thrift.version>
-    </properties>
-
     <repositories>
         <repository>
             <id>alibaba</id>
@@ -33,35 +27,5 @@
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
         </repository>
     </repositories>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring.boot.version}</version>
-            </dependency>
-
-            <!-- https://mvnrepository.com/artifact/org.apache.thrift/libthrift -->
-            <dependency>
-                <groupId>org.apache.thrift</groupId>
-                <artifactId>libthrift</artifactId>
-                <version>${thrift.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <optional>true</optional>
-                <version>${lombok.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-
-        </dependencies>
-    </dependencyManagement>
 
 </project>
