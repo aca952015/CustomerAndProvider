@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.istudio</groupId>
         <artifactId>thrift-springboot</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
     </parent>
 
     <artifactId>thrift-springboot-examples</artifactId>
@@ -15,17 +15,23 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>thrift-springboot-server</module>
         <module>thrift-springboot-service</module>
+        <module>thrift-springboot-server</module>
         <module>thrift-springboot-client</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>alibaba</id>
-            <name>ali yun repo</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.istudio</groupId>
+                <artifactId>thrift-springboot-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.istudio</groupId>
+                <artifactId>thrift-springboot-wrapper</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

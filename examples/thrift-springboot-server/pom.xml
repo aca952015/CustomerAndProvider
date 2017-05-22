@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.istudio</groupId>
 		<artifactId>thrift-springboot-examples</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>${project.version}</version>
 	</parent>
 
 	<name>thrift-springboot-server</name>
@@ -15,28 +15,16 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.thrift</groupId>
 			<artifactId>libthrift</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
 			<artifactId>thrift-springboot-service</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
-			<artifactId>thrift-springboot-provider</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<artifactId>thrift-springboot-wrapper</artifactId>
 		</dependency>
 	</dependencies>
 
