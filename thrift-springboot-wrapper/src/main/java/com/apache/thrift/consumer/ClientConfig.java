@@ -1,6 +1,7 @@
 package com.apache.thrift.consumer;
 
 import com.apache.thrift.common.BaseConfig;
+import com.apache.thrift.common.ThriftProperties;
 import com.apache.thrift.consumer.core.AppThriftServiceManager;
 import com.apache.thrift.consumer.core.ThriftSpringFactoryBean;
 import com.apache.thrift.consumer.pool.AppThriftConnectionPool;
@@ -31,7 +32,10 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
 
     @Bean
     public TSocketFactory socketFactory() {
-        return new TSocketFactory();
+
+        TSocketFactory socketFactory = new TSocketFactory();
+
+        return socketFactory;
     }
 
     @Bean
@@ -50,6 +54,9 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
         connectionPool.setSocketFactory(sockerFactory);
         connectionPool.setTransportFactory(transportFactory);
         connectionPool.setProtocolFactory(protocolFactory);
+        connectionPool.setMaxConnections(100);
+        connectionPool.setMinConnections(10);
+        connectionPool.setWaitTimeout(10);
 
         return connectionPool;
     }

@@ -205,7 +205,8 @@ public class AppThriftConnectionPool  implements InitializingBean ,ConnectionPoo
 
 
     //初始化连接池
-    public synchronized void initThriftConnectionPool(){
+    @Override
+    public synchronized void init(){
         blockingQueue = new LinkedBlockingQueue<ThriftConnection>();
         for (int i = 0 ; i < minConnections ; i++) {
             ThriftConnection ThriftConnection = new ThriftConnection();
@@ -301,7 +302,7 @@ public class AppThriftConnectionPool  implements InitializingBean ,ConnectionPoo
 
 
     public void afterPropertiesSet() throws Exception {
-        initThriftConnectionPool();
+
 
     }
 

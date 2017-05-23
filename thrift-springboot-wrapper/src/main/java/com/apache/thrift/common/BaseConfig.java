@@ -1,9 +1,8 @@
 package com.apache.thrift.common;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.AssignableTypeFilter;
-import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
@@ -20,6 +19,11 @@ public abstract class BaseConfig {
     public BaseConfig() {
 
         this.services =  new ArrayList<>();
+    }
+
+    @Bean
+    public ThriftProperties thriftProperties() {
+        return new ThriftProperties();
     }
 
     public Class[] getServices() {

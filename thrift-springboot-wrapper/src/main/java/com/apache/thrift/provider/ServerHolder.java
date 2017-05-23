@@ -2,13 +2,20 @@ package com.apache.thrift.provider;
 
 import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.Consts;
+import com.apache.thrift.common.ThriftProperties;
 import lombok.extern.log4j.Log4j;
+import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TCompactProtocol;
+import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
+import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by ACA on 2017/5/22.
@@ -17,6 +24,9 @@ import org.apache.thrift.transport.TTransportException;
 public class ServerHolder extends BaseHolder {
 
     private ServerConfig config;
+
+    @Autowired
+    private ThriftProperties properties;
 
     public ServerHolder(ServerConfig config) {
         this.config = config;
@@ -42,13 +52,19 @@ public class ServerHolder extends BaseHolder {
             Thread thread = new Thread(() -> {
 
                 try {
-                    TServerSocket serverTransport = new TServerSocket(getPort());
 
-                    // 设置二进制协议工厂
-                    TBinaryProtocol.Factory protocolFactory = new TBinaryProtocol.Factory();
+                    // 传输通道 - 非阻塞方式
+                    TNonblockingServerSocket serverTransport = new TNonblockingServerSocket(this.properties.getPort());
 
-                    // 使用线程池服务模型
-                    TThreadPoolServer.Args poolArgs = new TThreadPoolServer.Args(serverTransport);
+                    //异步IO，需要使用TFramedTransport，它将分块缓存读取。
+                    TNonblockingServer.Args tArgs = new TNonblockingServer.Args(serverTransport);
+
+                    tArgs.transportFactory(new TFramedTransport.Factory());
+
+                    //使用高密度二进制协议
+                    tArgs.protocolFactory(new TCompactProtocol.Factory());
+
+                    TMultiplexedProcessor multiProcessor = new TMultiplexedProcessor();
 
                     for (Class service : services) {
 
@@ -70,18 +86,20 @@ public class ServerHolder extends BaseHolder {
                         Object processorObj = processorClazz.getConstructor(iface).newInstance(iface.cast(target));
                         if (processorObj instanceof TProcessor) {
                             TProcessor processor = (TProcessor) processorObj;
-                            poolArgs.processor(processor);
+                            multiProcessor.registerProcessor(serviceName, processor);
 
                             log.info("service loaded: " + service.getName());
                         }
                     }
 
-                    poolArgs.protocolFactory(protocolFactory);
-                    TServer poolServer = new TThreadPoolServer(poolArgs);
+                    log.info("start server at port: " + properties.getPort());
 
-                    log.info("start server at port: " + getPort());
+                    tArgs.processor(multiProcessor);
 
-                    poolServer.serve();
+                    // 使用非阻塞式IO，服务端和客户端需要指定TFramedTransport数据传输的方式
+                    TServer server = new TNonblockingServer(tArgs);
+                    server.serve(); // 启动服务
+
                 } catch (Exception ex) {
                     log.error(ex);
                 }

@@ -1,7 +1,6 @@
 package com.apache.thrift.common;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -9,9 +8,6 @@ import org.springframework.context.ApplicationContextAware;
  * Created by ACA on 2017-5-22.
  */
 public abstract class BaseHolder implements ApplicationContextAware {
-
-    @Value("${thrift.server.port:9000}")
-    private int port;
 
     private static ApplicationContext context = null;
 
@@ -35,20 +31,29 @@ public abstract class BaseHolder implements ApplicationContextAware {
 
     // 通过name获取 Bean.
     protected Object getBean(String name) {
-        return getContext().getBean(name);
+        try {
+            return getContext().getBean(name);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     // 通过class获取Bean.
     protected <T> T getBean(Class<T> clazz) {
-        return getContext().getBean(clazz);
+        try {
+            return getContext().getBean(clazz);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // 通过name,以及Clazz返回指定的Bean
     protected <T> T getBean(String name, Class<T> clazz) {
-        return getContext().getBean(name, clazz);
-    }
-
-    protected int getPort() {
-        return this.port;
+        try {
+            return getContext().getBean(name, clazz);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

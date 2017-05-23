@@ -1,4 +1,4 @@
-package com.istudio.thrift.server;
+package com.istudio.thrift.server.impl;
 
 import com.istudio.thrift.service.HelloService;
 import lombok.extern.log4j.Log4j;

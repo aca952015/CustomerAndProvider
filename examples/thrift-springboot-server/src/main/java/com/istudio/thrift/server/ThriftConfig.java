@@ -11,6 +11,6 @@ public class ThriftConfig extends ServerConfig {
 
     public ThriftConfig() {
 
-        registerPackage("com.istudio.thrift.server");
+        registerPackage("com.istudio.thrift.server.impl");
     }
 }
