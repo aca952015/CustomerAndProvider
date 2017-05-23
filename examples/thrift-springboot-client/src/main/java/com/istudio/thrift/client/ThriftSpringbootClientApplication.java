@@ -39,8 +39,6 @@ public class ThriftSpringbootClientApplication {
 
 				calcClient.plus(123, 4556);
 				called++;
-
-				Thread.sleep(10L);
 			}
 			Date t2 = new Date();
 
