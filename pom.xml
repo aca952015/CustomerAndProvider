@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.istudio</groupId>
-    <artifactId>thrift-springboot</artifactId>
+    <artifactId>springboot-thrift</artifactId>
     <version>${project.version}</version>
 
     <packaging>pom</packaging>
 
     <modules>
-        <module>thrift-springboot-wrapper</module>
+        <module>springboot-thrift-wrapper</module>
     </modules>
 
     <properties>

@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>com.istudio</groupId>
-        <artifactId>thrift-springboot-examples</artifactId>
+        <artifactId>springboot-thrift-examples</artifactId>
         <version>${project.version}</version>
     </parent>
 
-    <name>thrift-springboot-service</name>
-    <artifactId>thrift-springboot-service</artifactId>
+    <name>springboot-thrift-service</name>
+    <artifactId>springboot-thrift-service</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>

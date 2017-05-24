@@ -5,12 +5,12 @@
 
 	<parent>
 		<groupId>com.istudio</groupId>
-		<artifactId>thrift-springboot-examples</artifactId>
+		<artifactId>springboot-thrift-examples</artifactId>
 		<version>${project.version}</version>
 	</parent>
 
-	<name>thrift-springboot-client</name>
-	<artifactId>thrift-springboot-client</artifactId>
+	<name>springboot-thrift-client</name>
+	<artifactId>springboot-thrift-client</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -20,11 +20,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
-			<artifactId>thrift-springboot-service</artifactId>
+			<artifactId>springboot-thrift-service</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
-			<artifactId>thrift-springboot-wrapper</artifactId>
+			<artifactId>springboot-thrift-wrapper</artifactId>
 		</dependency>
 	</dependencies>
 

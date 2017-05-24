@@ -6,30 +6,30 @@
 
     <parent>
         <groupId>com.istudio</groupId>
-        <artifactId>thrift-springboot</artifactId>
+        <artifactId>springboot-thrift</artifactId>
         <version>${project.version}</version>
     </parent>
 
-    <artifactId>examples</artifactId>
+    <artifactId>springboot-thrift-examples</artifactId>
 
     <packaging>pom</packaging>
 
     <modules>
-        <module>thrift-springboot-service</module>
-        <module>thrift-springboot-server</module>
-        <module>thrift-springboot-client</module>
+        <module>springboot-thrift-service</module>
+        <module>springboot-thrift-server</module>
+        <module>springboot-thrift-client</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.istudio</groupId>
-                <artifactId>thrift-springboot-service</artifactId>
+                <artifactId>springboot-thrift-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.istudio</groupId>
-                <artifactId>thrift-springboot-wrapper</artifactId>
+                <artifactId>springboot-thrift-wrapper</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

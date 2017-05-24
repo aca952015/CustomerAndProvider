@@ -18,6 +18,9 @@ public class ThriftSpringbootClientApplication {
 		HelloService.Iface helloClient = context.getBean(HelloService.Iface.class);
 		CalcService.Iface calcClient = context.getBean(CalcService.Iface.class);
 
+		System.out.println(helloClient.getClass());
+		System.out.println(calcClient.getClass());
+
 		for(int loop = 1; true; loop++) {
 
 			Date t1 = new Date();
