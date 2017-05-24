@@ -1,12 +1,9 @@
 package com.istudio.thrift.client;
 
-import com.apache.thrift.common.ThriftProperties;
 import com.istudio.thrift.service.CalcService;
 import com.istudio.thrift.service.HelloService;
-import org.apache.thrift.TException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Date;
@@ -44,7 +41,7 @@ public class ThriftSpringbootClientApplication {
 
 			System.out.println("loop NO." + loop + " elapsed time: " + (t2.getTime() - t1.getTime()) + "ms " + called + " invoked");
 
-			Thread.sleep(10000L);
+			Thread.sleep(1000L);
 		}
 	}
 }
