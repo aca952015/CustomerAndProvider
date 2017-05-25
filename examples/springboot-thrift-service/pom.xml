@@ -16,8 +16,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.thrift</groupId>
-            <artifactId>libthrift</artifactId>
+            <groupId>com.istudio</groupId>
+            <artifactId>springboot-thrift-wrapper</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -27,6 +27,7 @@
         <lombok.version>1.16.16</lombok.version>
         <thrift.version>0.10.0</thrift.version>
         <log4j.version>1.2.17</log4j.version>
+        <kyro.version>4.0.0</kyro.version>
     </properties>
 
     <repositories>
@@ -93,6 +94,11 @@
                 <artifactId>lombok</artifactId>
                 <optional>true</optional>
                 <version>${lombok.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>kryo</artifactId>
+                <version>${kyro.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

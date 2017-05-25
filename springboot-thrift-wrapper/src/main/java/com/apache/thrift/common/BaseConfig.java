@@ -1,10 +1,12 @@
 package com.apache.thrift.common;
 
+import com.apache.thrift.annotation.TService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AssignableTypeFilter;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +49,8 @@ public abstract class BaseConfig {
     public void registerPackage(String basePackage) {
 
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-        scanner.addIncludeFilter(new AssignableTypeFilter(Object.class));
+        scanner.addIncludeFilter(new AnnotationTypeFilter(TService.class));
+        scanner.addIncludeFilter(new AnnotationTypeFilter(org.springframework.stereotype.Component.class));
         registerClasses(scanner.findCandidateComponents(basePackage)
                 .stream()
                 .map(beanDefinition -> ClassUtils

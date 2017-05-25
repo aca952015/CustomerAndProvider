@@ -1,7 +1,6 @@
 package com.istudio.thrift.client;
 
 import com.istudio.thrift.service.CalcService;
-import com.istudio.thrift.service.HelloService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,10 +14,8 @@ public class ThriftSpringbootClientApplication {
 
 		ConfigurableApplicationContext context = SpringApplication.run(ThriftSpringbootClientApplication.class, args);
 
-		HelloService.Iface helloClient = context.getBean(HelloService.Iface.class);
-		CalcService.Iface calcClient = context.getBean(CalcService.Iface.class);
+		CalcService calcClient = context.getBean(CalcService.class);
 
-		System.out.println(helloClient.getClass());
 		System.out.println(calcClient.getClass());
 
 		for(int loop = 1; true; loop++) {
@@ -27,22 +24,13 @@ public class ThriftSpringbootClientApplication {
 			System.out.println("loop: " + loop);
 			int called = 0;
 
-			for(int pos = 0; pos < 100; pos++) {
-				helloClient.sayBoolean(false);
-				called++;
-				helloClient.sayInt(123);
-				called++;
-				helloClient.sayString("hello");
-				called++;
-				helloClient.sayVoid();
-				called++;
-
+			for(int pos = 0; pos < 500; pos++) {
 				calcClient.plus(123, 4556);
-				called++;
 			}
+
 			Date t2 = new Date();
 
-			System.out.println("loop NO." + loop + " elapsed time: " + (t2.getTime() - t1.getTime()) + "ms " + called + " invoked");
+			System.out.println("loop NO." + loop + " elapsed time: " + (t2.getTime() - t1.getTime()) + "ms 500 invoked");
 
 			Thread.sleep(1000L);
 		}

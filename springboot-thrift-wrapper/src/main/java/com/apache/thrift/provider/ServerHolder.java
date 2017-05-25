@@ -5,15 +5,11 @@ import com.apache.thrift.common.Consts;
 import com.apache.thrift.common.ThriftProperties;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TMultiplexedProcessor;
-import org.apache.thrift.TProcessor;
-import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
-import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -75,21 +71,12 @@ public class ServerHolder extends BaseHolder {
                         }
 
                         Class iface = service.getInterfaces()[0];
-                        if (iface.getName().indexOf(Consts.IFACE_NAME) < 0) {
-                            continue;
-                        }
+                        String serviceName = service.getName();
 
-                        String ifaceName = iface.getName();
-                        String serviceName = ifaceName.substring(0, ifaceName.lastIndexOf(Consts.IFACE_NAME));
+                        ServerProcessor processorObj = new ServerProcessor(iface, target);
+                        multiProcessor.registerProcessor(serviceName, processorObj);
 
-                        Class processorClazz = Class.forName(serviceName.concat(Consts.PROCESS_NAME));
-                        Object processorObj = processorClazz.getConstructor(iface).newInstance(iface.cast(target));
-                        if (processorObj instanceof TProcessor) {
-                            TProcessor processor = (TProcessor) processorObj;
-                            multiProcessor.registerProcessor(serviceName, processor);
-
-                            log.info("service loaded: " + service.getName());
-                        }
+                        log.info("service loaded: " + service.getName());
                     }
 
                     log.info("start server at port: " + properties.getPort());

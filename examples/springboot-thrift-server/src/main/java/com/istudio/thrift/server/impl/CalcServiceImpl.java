@@ -2,7 +2,6 @@ package com.istudio.thrift.server.impl;
 
 import com.istudio.thrift.service.CalcService;
 import lombok.extern.log4j.Log4j;
-import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,10 +9,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Log4j
-public class CalcServiceImpl implements CalcService.Iface {
+public class CalcServiceImpl implements CalcService {
 
     @Override
-    public int plus(int param1, int param2) throws TException {
+    public int plus(int param1, int param2) {
 
         log.info("from client: plus " + param1 + " + " + param2);
 
