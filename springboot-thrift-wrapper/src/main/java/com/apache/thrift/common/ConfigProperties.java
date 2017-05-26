@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Getter
 @Setter
-public class ThriftProperties {
+public class ConfigProperties {
 
     @Value("${thrift.port:9000}")
     private int port;

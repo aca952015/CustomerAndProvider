@@ -1,15 +1,14 @@
 package com.apache.thrift.consumer;
 
 import com.apache.thrift.common.BaseConfig;
-import com.apache.thrift.common.ThriftProperties;
 import com.apache.thrift.consumer.core.AppThriftServiceManager;
+import com.apache.thrift.consumer.core.ClientHolder;
 import com.apache.thrift.consumer.core.ThriftSpringFactoryBean;
 import com.apache.thrift.consumer.pool.AppThriftConnectionPool;
 import com.apache.thrift.consumer.pool.AppThriftServiceClientPool;
 import com.apache.thrift.consumer.pool.ConnectionPool;
 import com.apache.thrift.consumer.pool.ServiceClientPool;
 import com.apache.thrift.consumer.pool.bo.TSocketFactory;
-import com.apache.thrift.utils.ThriftUtils;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TTransportFactory;
@@ -92,16 +91,11 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
 
         for(Class service : services) {
 
-            Class iface = ThriftUtils.getIfaceClazz(service.getTypeName());
-            if(iface == null){
-                continue;
-            }
-
-            log.info(iface.getName());
+            log.info("init service: " + service.getName());
 
             ThriftSpringFactoryBean factory = new ThriftSpringFactoryBean();
             factory.setAppThriftClientManager(beanFactory.getBean(AppThriftServiceManager.class));
-            factory.setServiceIfaceClass(iface);
+            factory.setServiceIfaceClass(service);
 
             beanFactory.registerSingleton(service.getName(), factory);
         }

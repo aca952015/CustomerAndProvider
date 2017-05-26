@@ -16,6 +16,7 @@ public class JdkThriftClientProxy implements InvocationHandler {
 
     /*thrift 服务类的iface 类*/
     private Class ifaceClazz;
+    private ServiceClient client;
 
     private ServiceClientPool serviceClientPool;
 
@@ -25,16 +26,11 @@ public class JdkThriftClientProxy implements InvocationHandler {
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-
-
         Object result = null;
-
-
-        String serviceName = ThriftUtils.getServiceName(ifaceClazz);
 
         try {
             Object clientInstance = null;
-            clientInstance = serviceClientPool.getClientInstance(serviceName);
+            clientInstance = serviceClientPool.getClientInstance(ifaceClazz);
 
             long start = System.currentTimeMillis();
 

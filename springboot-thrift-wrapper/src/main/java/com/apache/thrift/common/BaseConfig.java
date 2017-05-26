@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ClassPathScanningCandidateComponen
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.ClassUtils;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,8 +23,8 @@ public abstract class BaseConfig {
     }
 
     @Bean
-    public ThriftProperties thriftProperties() {
-        return new ThriftProperties();
+    public ConfigProperties thriftProperties() {
+        return new ConfigProperties();
     }
 
     public Class[] getServices() {

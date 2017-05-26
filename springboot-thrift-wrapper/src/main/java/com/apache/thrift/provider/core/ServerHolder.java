@@ -1,8 +1,8 @@
-package com.apache.thrift.provider;
+package com.apache.thrift.provider.core;
 
 import com.apache.thrift.common.BaseHolder;
-import com.apache.thrift.common.Consts;
-import com.apache.thrift.common.ThriftProperties;
+import com.apache.thrift.common.ConfigProperties;
+import com.apache.thrift.provider.ServerConfig;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.protocol.TCompactProtocol;
@@ -22,7 +22,7 @@ public class ServerHolder extends BaseHolder {
     private ServerConfig config;
 
     @Autowired
-    private ThriftProperties properties;
+    private ConfigProperties properties;
 
     public ServerHolder(ServerConfig config) {
         this.config = config;

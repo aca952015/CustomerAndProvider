@@ -7,11 +7,9 @@ import org.apache.thrift.protocol.TProtocol;
  */
 public interface ConnectionPool {
 
-
     TProtocol createNewProtocol();
-    TProtocol getProtocol(String serviceName);
+    TProtocol getProtocol(Class iface);
     void init();
     void recycleProtocol();
     void onDestroy();
-
 }

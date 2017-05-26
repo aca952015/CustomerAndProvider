@@ -5,10 +5,7 @@ package com.apache.thrift.consumer.pool;
  */
 public interface ServiceClientPool {
 
+    Object getClientInstance(String serviceName);
 
-    public Object getClientInstance(String serviceName);
-
-    public void recycleClient();
-
-
+    void recycleClient();
 }
