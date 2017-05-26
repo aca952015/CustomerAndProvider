@@ -1,11 +1,14 @@
 package com.apache.thrift.consumer.core;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by zhuangjiesen on 2017/3/17.
  */
+@Getter
+@Setter
 public class ThriftSpringFactoryBean implements FactoryBean {
 
     //客户端获取实例
@@ -17,36 +20,13 @@ public class ThriftSpringFactoryBean implements FactoryBean {
     // 是否单例
     private boolean isSingleton = true;
 
+    @Override
     public Object getObject() throws Exception {
         return appThriftClientManager.getClient(serviceIfaceClass);
     }
 
+    @Override
     public Class getObjectType() {
         return serviceIfaceClass;
-    }
-
-    public boolean isSingleton() {
-        return isSingleton;
-    }
-
-
-    public void setSingleton(boolean singleton) {
-        isSingleton = singleton;
-    }
-
-    public AppThriftServiceManager getAppThriftClientManager() {
-        return appThriftClientManager;
-    }
-
-    public void setAppThriftClientManager(AppThriftServiceManager appThriftClientManager) {
-        this.appThriftClientManager = appThriftClientManager;
-    }
-
-    public Class getServiceIfaceClass() {
-        return serviceIfaceClass;
-    }
-
-    public void setServiceIfaceClass(Class serviceIfaceClass) {
-        this.serviceIfaceClass = serviceIfaceClass;
     }
 }

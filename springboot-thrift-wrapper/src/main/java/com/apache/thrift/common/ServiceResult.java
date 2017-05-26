@@ -1,6 +1,5 @@
 package com.apache.thrift.common;
 
-import com.apache.thrift.utils.KyroUtils;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
 

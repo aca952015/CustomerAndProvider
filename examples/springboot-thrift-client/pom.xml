@@ -19,12 +19,20 @@
 			<artifactId>libthrift</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.istudio</groupId>
-			<artifactId>springboot-thrift-service</artifactId>
+			<groupId>de.ruedigermoeller</groupId>
+			<artifactId>fst</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>kryo</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
 			<artifactId>springboot-thrift-wrapper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.istudio</groupId>
+			<artifactId>springboot-thrift-service</artifactId>
 		</dependency>
 	</dependencies>
 

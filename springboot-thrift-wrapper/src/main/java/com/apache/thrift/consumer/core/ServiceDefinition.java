@@ -1,6 +1,5 @@
 package com.apache.thrift.consumer.core;
 
-import com.apache.thrift.provider.core.ServerFunction;
 import lombok.Getter;
 
 import java.lang.reflect.Method;
@@ -52,9 +51,21 @@ public class ServiceDefinition {
 
         if(!defs.containsKey(iface)) {
 
-            defs.put(iface, new ServiceDefinition(iface));
+            return null;
         }
 
         return defs.get(iface);
+    }
+
+    public static ServiceDefinition[] getDefs() {
+        return defs.values().toArray(new ServiceDefinition[]{});
+    }
+
+    public static void register(Class iface) {
+
+        if(!defs.containsKey(iface)) {
+
+            defs.put(iface, new ServiceDefinition(iface));
+        }
     }
 }

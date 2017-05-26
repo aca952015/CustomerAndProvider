@@ -1,11 +1,9 @@
 package com.apache.thrift.common;
 
-import com.apache.thrift.utils.KyroUtils;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.protocol.TProtocolException;
 
-import java.nio.ByteBuffer;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +28,7 @@ public class ServiceArgument extends ServiceBase {
             values.add(read(iprot, type));
         }
 
-        return values.toArray(new Class[]{});
+        return values.toArray(new Object[]{});
     }
 
     public void write(TProtocol oprot, Object[] values) throws TException {

@@ -3,6 +3,7 @@ package com.apache.thrift.consumer;
 import com.apache.thrift.common.BaseConfig;
 import com.apache.thrift.consumer.core.AppThriftServiceManager;
 import com.apache.thrift.consumer.core.ClientHolder;
+import com.apache.thrift.consumer.core.ServiceDefinition;
 import com.apache.thrift.consumer.core.ThriftSpringFactoryBean;
 import com.apache.thrift.consumer.pool.AppThriftConnectionPool;
 import com.apache.thrift.consumer.pool.AppThriftServiceClientPool;
@@ -92,6 +93,8 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
         for(Class service : services) {
 
             log.info("init service: " + service.getName());
+
+            ServiceDefinition.register(service);
 
             ThriftSpringFactoryBean factory = new ThriftSpringFactoryBean();
             factory.setAppThriftClientManager(beanFactory.getBean(AppThriftServiceManager.class));

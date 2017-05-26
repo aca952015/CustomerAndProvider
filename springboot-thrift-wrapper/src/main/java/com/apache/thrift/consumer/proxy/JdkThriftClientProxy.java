@@ -1,10 +1,10 @@
 package com.apache.thrift.consumer.proxy;
 
 
+import com.apache.thrift.consumer.core.ServiceClient;
 import com.apache.thrift.consumer.pool.ServiceClientPool;
-import com.apache.thrift.utils.ThriftUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -12,12 +12,12 @@ import java.lang.reflect.Method;
 /**
  * Created by zhuangjiesen on 2017/4/30.
  */
+@Getter
+@Setter
 public class JdkThriftClientProxy implements InvocationHandler {
 
     /*thrift 服务类的iface 类*/
     private Class ifaceClazz;
-    private ServiceClient client;
-
     private ServiceClientPool serviceClientPool;
 
     public JdkThriftClientProxy() {
@@ -29,13 +29,12 @@ public class JdkThriftClientProxy implements InvocationHandler {
         Object result = null;
 
         try {
-            Object clientInstance = null;
-            clientInstance = serviceClientPool.getClientInstance(ifaceClazz);
+            ServiceClient clientInstance = serviceClientPool.getClientInstance(ifaceClazz);
 
             long start = System.currentTimeMillis();
 
             //方法执行
-            result = method.invoke(clientInstance, args);
+            result = clientInstance.sendBase(method.getName(), args);
 
             //执行时间
             long invokeTime = System.currentTimeMillis() - start;
@@ -53,23 +52,5 @@ public class JdkThriftClientProxy implements InvocationHandler {
 
 
         return result;
-    }
-
-
-    public Class getIfaceClazz() {
-        return ifaceClazz;
-    }
-
-    public void setIfaceClazz(Class ifaceClazz) {
-        this.ifaceClazz = ifaceClazz;
-    }
-
-
-    public ServiceClientPool getServiceClientPool() {
-        return serviceClientPool;
-    }
-
-    public void setServiceClientPool(ServiceClientPool serviceClientPool) {
-        this.serviceClientPool = serviceClientPool;
     }
 }

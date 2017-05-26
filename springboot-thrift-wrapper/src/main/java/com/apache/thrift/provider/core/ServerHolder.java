@@ -2,6 +2,7 @@ package com.apache.thrift.provider.core;
 
 import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
+import com.apache.thrift.consumer.core.ServiceDefinition;
 import com.apache.thrift.provider.ServerConfig;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TMultiplexedProcessor;
@@ -12,6 +13,8 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.xml.ws.Service;
 
 /**
  * Created by ACA on 2017/5/22.
@@ -71,12 +74,16 @@ public class ServerHolder extends BaseHolder {
                         }
 
                         Class iface = service.getInterfaces()[0];
-                        String serviceName = service.getName();
+
+                        // 反射类型
+                        ServiceDefinition.register(iface);
+
+                        String serviceName = iface.getName();
 
                         ServerProcessor processorObj = new ServerProcessor(iface, target);
                         multiProcessor.registerProcessor(serviceName, processorObj);
 
-                        log.info("service loaded: " + service.getName());
+                        log.info("service loaded: " + serviceName);
                     }
 
                     log.info("start server at port: " + properties.getPort());

@@ -1,13 +1,9 @@
 package com.apache.thrift.consumer.core;
 
-import com.apache.thrift.common.ServiceArgument;
-import com.apache.thrift.common.ServiceResult;
-import org.apache.http.MethodNotSupportedException;
 import org.apache.thrift.TApplicationException;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TMessage;
 import org.apache.thrift.protocol.TProtocol;
-import org.springframework.beans.MethodInvocationException;
 
 /**
  * Created by ACA on 2017/5/26.
@@ -30,18 +26,20 @@ public class ServiceClient {
         this.def = ServiceDefinition.getDef(iface);
     }
 
-    protected void sendBase(String methodName, ServiceArgument args) throws TException {
+    public Object sendBase(String methodName, Object[] args) throws Exception {
         this.sendBase(methodName, args, (byte) 1);
+        return receiveBase(methodName);
     }
 
-    protected void sendBaseOneway(String methodName, ServiceArgument args) throws TException {
+    public Object sendBaseOneway(String methodName, Object[] args) throws Exception {
         this.sendBase(methodName, args, (byte) 4);
+        return receiveBase(methodName);
     }
 
-    private void sendBase(String methodName, Object[] args, byte type) throws TException {
+    private void sendBase(String methodName, Object[] args, byte type) throws Exception {
 
         ServiceFunctionDefinition funcDef = def.getFunction(methodName);
-        if(funcDef == null) {
+        if (funcDef == null) {
 
             throw new TException("Method not found.");
         }
@@ -52,20 +50,28 @@ public class ServiceClient {
         this.oprot.getTransport().flush();
     }
 
-    protected void receiveBase(String methodName, ServiceResult result) throws TException {
+    protected Object receiveBase(String methodName) throws TException {
+
+        ServiceFunctionDefinition funcDef = def.getFunction(methodName);
+        if (funcDef == null) {
+
+            throw new TException("Method not found.");
+        }
+
         TMessage msg = this.iprot.readMessageBegin();
-        if(msg.type == 3) {
+        if (msg.type == 3) {
             TApplicationException x = new TApplicationException();
             x.read(this.iprot);
             this.iprot.readMessageEnd();
             throw x;
         } else {
-            System.out.format("Received %d%n", new Object[]{Integer.valueOf(msg.seqid)});
-            if(msg.seqid != this.seqid) {
+            if (msg.seqid != this.seqid) {
                 throw new TApplicationException(4, String.format("%s failed: out of sequence response: expected %d but got %d", new Object[]{methodName, Integer.valueOf(this.seqid), Integer.valueOf(msg.seqid)}));
             } else {
-                result.read(this.iprot);
+                Object result = funcDef.getOutput().read(this.iprot);
                 this.iprot.readMessageEnd();
+
+                return result;
             }
         }
     }

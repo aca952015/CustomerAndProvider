@@ -1,36 +1,33 @@
 package com.apache.thrift.consumer.pool;
 
 
-import com.apache.thrift.common.Consts;
 import com.apache.thrift.consumer.core.ServiceClient;
-import com.apache.thrift.consumer.core.ThriftClient;
-import com.apache.thrift.utils.ThriftUtils;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.thrift.protocol.TProtocol;
 
-import java.lang.reflect.Constructor;
-
 /**
- *
  * 实例池，实例复用
  * Created by zhuangjiesen on 2017/4/30.
  */
+@Getter
+@Setter
 public class AppThriftServiceClientPool implements ServiceClientPool {
 
     private ConnectionPool connectionPool;
 
-    public ServiceClient getClientInstance(Class iface){
+    @Override
+    public ServiceClient getClientInstance(Class iface) {
 
         ServiceClient clientInstance = null;
 
         try {
             // 连接池中选择 protocol
             TProtocol protocol = connectionPool.getProtocol(iface);
-
-
+            clientInstance = new ServiceClient(iface, protocol);
         } catch (Exception e) {
             //异常处理
             // TODO: handle exception
-
             e.printStackTrace();
         } finally {
             // 回收 protocol
@@ -39,24 +36,12 @@ public class AppThriftServiceClientPool implements ServiceClientPool {
         return clientInstance;
     }
 
-
-    public void recycleClient(){
+    @Override
+    public void recycleClient() {
 
         connectionPool.recycleProtocol();
     }
 
-
-    public void onDestroy(){
-
-
-    }
-
-
-    public ConnectionPool getConnectionPool() {
-        return connectionPool;
-    }
-
-    public void setConnectionPool(ConnectionPool connectionPool) {
-        this.connectionPool = connectionPool;
+    public void onDestroy() {
     }
 }

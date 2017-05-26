@@ -141,17 +141,20 @@ public class AppThriftConnectionPool implements InitializingBean, ConnectionPool
 
         ThriftConnection thriftConnection = protocolLocal.get();
 
-        TProtocol protocol = thriftConnection.getProtocol();
         if (thriftConnection != null) {
-            // Transport 已经关闭 重新创建
-            if (thriftConnection.getProtocol().getTransport() != null && (!thriftConnection.getProtocol().getTransport().isOpen())) {
-                protocol = createNewProtocol();
-                thriftConnection.setProtocol(protocol);
+            TProtocol protocol = thriftConnection.getProtocol();
+            if (thriftConnection != null) {
+                // Transport 已经关闭 重新创建
+                if (thriftConnection.getProtocol().getTransport() != null && (!thriftConnection.getProtocol().getTransport().isOpen())) {
+                    protocol = createNewProtocol();
+                    thriftConnection.setProtocol(protocol);
+                }
+                blockingQueue.add(thriftConnection
+                );
             }
-            blockingQueue.add(thriftConnection
-            );
+
+            protocolLocal.remove();
         }
-        protocolLocal.remove();
     }
 
 
