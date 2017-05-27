@@ -4,6 +4,7 @@ import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.consumer.core.ServiceDefinition;
 import com.apache.thrift.provider.ServerConfig;
+import com.netflix.discovery.converters.Auto;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.protocol.TCompactProtocol;
@@ -13,6 +14,8 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EurekaDiscoveryClient;
 
 import javax.xml.ws.Service;
 
@@ -26,6 +29,9 @@ public class ServerHolder extends BaseHolder {
 
     @Autowired
     private ConfigProperties properties;
+
+    @Autowired
+    private EurekaDiscoveryClient discoveryClient;
 
     public ServerHolder(ServerConfig config) {
         this.config = config;
@@ -84,6 +90,11 @@ public class ServerHolder extends BaseHolder {
                         multiProcessor.registerProcessor(serviceName, processorObj);
 
                         log.info("service loaded: " + serviceName);
+
+                        if(properties.isDiscover()) {
+
+                            //discoveryClient.
+                        }
                     }
 
                     log.info("start server at port: " + properties.getPort());

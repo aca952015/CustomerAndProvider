@@ -14,6 +14,12 @@
         <module>springboot-thrift-wrapper</module>
     </modules>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -22,13 +28,14 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.version>1.0-SNAPSHOT</project.version>
         <junit.version>4.12</junit.version>
-        <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
-        <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
+        <spring.boot.version>1.5.2.RELEASE</spring.boot.version>
+        <spring.cloud.version>Dalston.SR1</spring.cloud.version>
         <lombok.version>1.16.16</lombok.version>
         <thrift.version>0.10.0</thrift.version>
         <log4j.version>1.2.17</log4j.version>
         <kyro.version>4.0.0</kyro.version>
         <fst.version>2.50</fst.version>
+        <eureka.version>1.1.37</eureka.version>
     </properties>
 
     <repositories>
@@ -80,11 +87,12 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.thrift/libthrift -->
             <dependency>
                 <groupId>org.apache.thrift</groupId>
                 <artifactId>libthrift</artifactId>
@@ -105,6 +113,11 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>${kyro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.eureka</groupId>
+                <artifactId>eureka-client</artifactId>
+                <version>${eureka.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

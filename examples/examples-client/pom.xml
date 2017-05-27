@@ -5,12 +5,12 @@
 
 	<parent>
 		<groupId>com.istudio</groupId>
-		<artifactId>springboot-thrift-examples</artifactId>
+		<artifactId>examples</artifactId>
 		<version>${project.version}</version>
 	</parent>
 
-	<name>springboot-thrift-server</name>
-	<artifactId>springboot-thrift-server</artifactId>
+	<name>examples-client</name>
+	<artifactId>examples-client</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -32,8 +32,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
-			<artifactId>springboot-thrift-service</artifactId>
-        </dependency>
+			<artifactId>examples-service</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

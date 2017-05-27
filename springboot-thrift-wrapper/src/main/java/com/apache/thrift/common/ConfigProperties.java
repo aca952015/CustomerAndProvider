@@ -16,4 +16,7 @@ public class ConfigProperties {
 
     @Value("${thrift.host:127.0.0.1}")
     private String host;
+
+    @Value("${thrift.discover:false")
+    private boolean discover;
 }

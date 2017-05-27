@@ -5,15 +5,24 @@
 
 	<parent>
 		<groupId>com.istudio</groupId>
-		<artifactId>springboot-thrift-examples</artifactId>
+		<artifactId>examples</artifactId>
 		<version>${project.version}</version>
 	</parent>
 
-	<name>springboot-thrift-client</name>
-	<artifactId>springboot-thrift-client</artifactId>
+	<name>examples-server</name>
+	<artifactId>examples-server</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka-server</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.thrift</groupId>
 			<artifactId>libthrift</artifactId>
@@ -32,8 +41,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.istudio</groupId>
-			<artifactId>springboot-thrift-service</artifactId>
-		</dependency>
+			<artifactId>examples-service</artifactId>
+        </dependency>
 	</dependencies>
 
 	<build>
