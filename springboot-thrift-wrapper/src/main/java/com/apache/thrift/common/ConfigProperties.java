@@ -19,4 +19,7 @@ public class ConfigProperties {
 
     @Value("${thrift.discover:false}")
     private boolean discover;
+
+    @Value("${thrift.zookeeper:}")
+    private String zookeeper;
 }

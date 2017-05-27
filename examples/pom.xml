@@ -18,7 +18,6 @@
         <module>examples-service</module>
         <module>examples-server</module>
         <module>examples-client</module>
-        <module>examples-infrastructure</module>
     </modules>
 
     <dependencyManagement>

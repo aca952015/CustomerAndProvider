@@ -37,6 +37,7 @@
         <kyro.version>4.0.0</kyro.version>
         <fst.version>2.50</fst.version>
         <zookeeper.version>3.4.10</zookeeper.version>
+        <curator.version>3.3.0</curator.version>
     </properties>
 
     <repositories>
@@ -91,6 +92,11 @@
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
                 <version>${zookeeper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.thrift</groupId>
