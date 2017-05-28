@@ -1,15 +1,12 @@
 package com.apache.thrift.consumer;
 
 import com.apache.thrift.common.BaseConfig;
-import com.apache.thrift.consumer.core.AppThriftServiceManager;
+import com.apache.thrift.common.ServiceDefinition;
 import com.apache.thrift.consumer.core.ClientHolder;
-import com.apache.thrift.consumer.core.ServiceDefinition;
-import com.apache.thrift.consumer.core.ThriftSpringFactoryBean;
-import com.apache.thrift.consumer.pool.AppThriftConnectionPool;
-import com.apache.thrift.consumer.pool.AppThriftServiceClientPool;
+import com.apache.thrift.consumer.core.ServiceFactory;
+import com.apache.thrift.consumer.core.ServiceManager;
 import com.apache.thrift.consumer.pool.ConnectionPool;
 import com.apache.thrift.consumer.pool.ServiceClientPool;
-import com.apache.thrift.consumer.pool.bo.TSocketFactory;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TTransportFactory;
@@ -31,14 +28,6 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
     }
 
     @Bean
-    public TSocketFactory socketFactory() {
-
-        TSocketFactory socketFactory = new TSocketFactory();
-
-        return socketFactory;
-    }
-
-    @Bean
     public TTransportFactory transportFactory() {
         return new org.apache.thrift.transport.TFramedTransport.Factory();
     }
@@ -49,9 +38,8 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
     }
 
     @Bean
-    public ConnectionPool thriftConnectionPool(TSocketFactory sockerFactory, TTransportFactory transportFactory, TProtocolFactory protocolFactory) {
-        AppThriftConnectionPool connectionPool = new AppThriftConnectionPool();
-        connectionPool.setSocketFactory(sockerFactory);
+    public ConnectionPool thriftConnectionPool(TTransportFactory transportFactory, TProtocolFactory protocolFactory) {
+        ConnectionPool connectionPool = new ConnectionPool();
         connectionPool.setTransportFactory(transportFactory);
         connectionPool.setProtocolFactory(protocolFactory);
         connectionPool.setMaxConnections(100);
@@ -63,15 +51,15 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
 
     @Bean
     public ServiceClientPool clientPool(ConnectionPool connectionPool) {
-        AppThriftServiceClientPool clientPool = new AppThriftServiceClientPool();
+        ServiceClientPool clientPool = new ServiceClientPool();
         clientPool.setConnectionPool(connectionPool);
 
         return clientPool;
     }
 
     @Bean
-    public AppThriftServiceManager thriftServiceManager(ServiceClientPool clientPool) {
-        AppThriftServiceManager manager = new AppThriftServiceManager();
+    public ServiceManager thriftServiceManager(ServiceClientPool clientPool) {
+        ServiceManager manager = new ServiceManager();
         manager.setServiceClientPool(clientPool);
 
         return manager;
@@ -96,8 +84,8 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
 
             ServiceDefinition.register(service);
 
-            ThriftSpringFactoryBean factory = new ThriftSpringFactoryBean();
-            factory.setAppThriftClientManager(beanFactory.getBean(AppThriftServiceManager.class));
+            ServiceFactory factory = new ServiceFactory();
+            factory.setServiceManager(beanFactory.getBean(ServiceManager.class));
             factory.setServiceIfaceClass(service);
 
             beanFactory.registerSingleton(service.getName(), factory);

@@ -12,7 +12,14 @@
 
     <modules>
         <module>springboot-thrift-wrapper</module>
+        <module>examples</module>
     </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.3.RELEASE</version>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,12 +30,14 @@
         <project.version>1.0-SNAPSHOT</project.version>
         <junit.version>4.12</junit.version>
         <spring.boot.version>1.5.3.RELEASE</spring.boot.version>
-        <spring.cloud.version>Dalston.RELEASE</spring.cloud.version>
+        <spring.cloud.version>Dalston.SR1</spring.cloud.version>
         <lombok.version>1.16.16</lombok.version>
         <thrift.version>0.10.0</thrift.version>
         <log4j.version>1.2.17</log4j.version>
         <kyro.version>4.0.0</kyro.version>
         <fst.version>2.50</fst.version>
+        <zookeeper.version>3.4.10</zookeeper.version>
+        <curator.version>2.12.0</curator.version>
     </properties>
 
     <repositories>
@@ -80,11 +89,32 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.thrift/libthrift -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-x-discovery</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.thrift</groupId>
                 <artifactId>libthrift</artifactId>

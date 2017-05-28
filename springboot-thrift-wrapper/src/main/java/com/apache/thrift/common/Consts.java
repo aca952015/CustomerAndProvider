@@ -5,4 +5,5 @@ package com.apache.thrift.common;
  */
 public class Consts {
 
+    public static String SERVICE_BASEPATH = "thriftservices";
 }

@@ -16,4 +16,25 @@ public class ConfigProperties {
 
     @Value("${thrift.host:127.0.0.1}")
     private String host;
+
+    @Value("${thrift.serialization.type:fst}")
+    private String serializationType;
+
+    @Value("${thrift.discovery.enabled:false}")
+    private boolean discoveryEnabled;
+
+    @Value("${thrift.discovery.host:}")
+    private String discoveryHost;
+
+    @Value("${thrift.discovery.type:}")
+    private String discoveryType;
+
+    @Value("${thrift.connection.connect.timeout:0}")
+    private int connectionConnectTimeout;
+
+    @Value("${thrift.connection.socket.timeout:0}")
+    private int connectionSocketTimeout;
+
+    @Value("${thrift.connection.timeout:0}")
+    private int connectionTimeout;
 }

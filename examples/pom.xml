@@ -10,21 +10,21 @@
         <version>${project.version}</version>
     </parent>
 
-    <artifactId>springboot-thrift-examples</artifactId>
+    <artifactId>examples</artifactId>
 
     <packaging>pom</packaging>
 
     <modules>
-        <module>springboot-thrift-service</module>
-        <module>springboot-thrift-server</module>
-        <module>springboot-thrift-client</module>
+        <module>examples-service</module>
+        <module>examples-server</module>
+        <module>examples-client</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>com.istudio</groupId>
-                <artifactId>springboot-thrift-service</artifactId>
+                <artifactId>examples-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
