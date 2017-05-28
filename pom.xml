@@ -37,7 +37,7 @@
         <kyro.version>4.0.0</kyro.version>
         <fst.version>2.50</fst.version>
         <zookeeper.version>3.4.10</zookeeper.version>
-        <curator.version>3.3.0</curator.version>
+        <curator.version>2.12.0</curator.version>
     </properties>
 
     <repositories>
@@ -92,10 +92,27 @@
                 <groupId>org.apache.zookeeper</groupId>
                 <artifactId>zookeeper</artifactId>
                 <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.zookeeper</groupId>
+                        <artifactId>zookeeper</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-x-discovery</artifactId>
                 <version>${curator.version}</version>
             </dependency>
             <dependency>

@@ -1,4 +1,4 @@
-package com.apache.thrift.consumer.core;
+package com.apache.thrift.common;
 
 import com.apache.thrift.common.ServiceArgument;
 import com.apache.thrift.common.ServiceResult;

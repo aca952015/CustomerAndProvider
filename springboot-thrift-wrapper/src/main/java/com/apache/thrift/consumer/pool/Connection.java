@@ -1,18 +1,18 @@
-package com.apache.thrift.consumer.pool.bo;
+package com.apache.thrift.consumer.pool;
 
 import org.apache.thrift.protocol.TProtocol;
 
 /**
  * Created by zhuangjiesen on 2017/4/30.
  */
-public class ThriftConnection {
-
+public class Connection {
 
     private TProtocol protocol;
 
     //空转时长
     private long lru;
 
+    private Class iface;
 
     public TProtocol getProtocol() {
         //设置空转时长
@@ -26,7 +26,6 @@ public class ThriftConnection {
         this.protocol = protocol;
     }
 
-
     public long getLru() {
         return lru;
     }
@@ -35,5 +34,11 @@ public class ThriftConnection {
         this.lru = lru;
     }
 
+    public Class getIface() {
+        return iface;
+    }
 
+    public void setIface(Class iface) {
+        this.iface = iface;
+    }
 }

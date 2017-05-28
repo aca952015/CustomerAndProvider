@@ -9,10 +9,10 @@ import org.springframework.beans.factory.FactoryBean;
  */
 @Getter
 @Setter
-public class ThriftSpringFactoryBean implements FactoryBean {
+public class ServiceFactory implements FactoryBean {
 
     //客户端获取实例
-    private AppThriftServiceManager appThriftClientManager;
+    private ServiceManager serviceManager;
 
     //服务 Iface 接口类
     private Class serviceIfaceClass;
@@ -22,7 +22,7 @@ public class ThriftSpringFactoryBean implements FactoryBean {
 
     @Override
     public Object getObject() throws Exception {
-        return appThriftClientManager.getClient(serviceIfaceClass);
+        return serviceManager.getClient(serviceIfaceClass);
     }
 
     @Override

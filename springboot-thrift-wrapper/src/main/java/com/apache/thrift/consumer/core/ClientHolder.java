@@ -3,7 +3,8 @@ package com.apache.thrift.consumer.core;
 import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.consumer.pool.ConnectionPool;
-import com.apache.thrift.consumer.pool.bo.TSocketFactory;
+import com.apache.thrift.consumer.pool.impl.DirectSocketBuilder;
+import com.apache.thrift.consumer.pool.impl.DiscoverySocketBuilder;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,17 +18,23 @@ public class ClientHolder extends BaseHolder {
     private ConfigProperties properties;
 
     @Autowired
-    private TSocketFactory socketFactory;
-
-    @Autowired
     private ConnectionPool connectionPool;
 
     @Override
     protected void doInit() {
 
-        socketFactory.setPort(properties.getPort());
-        socketFactory.setHost(properties.getHost());
+        if(properties.isDiscoveryEnabled()) {
 
-        connectionPool.init();;
+            DiscoverySocketBuilder builder = new DiscoverySocketBuilder();
+            builder.setProperties(properties);
+            builder.init();
+
+            connectionPool.setSocketBuilder(builder);
+        } else {
+
+            connectionPool.setSocketBuilder(new DirectSocketBuilder());
+        }
+
+        connectionPool.init();
     }
 }

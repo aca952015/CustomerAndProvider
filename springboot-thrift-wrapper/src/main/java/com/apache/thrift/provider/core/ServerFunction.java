@@ -1,6 +1,6 @@
 package com.apache.thrift.provider.core;
 
-import com.apache.thrift.consumer.core.ServiceFunctionDefinition;
+import com.apache.thrift.common.ServiceFunctionDefinition;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TApplicationException;
 import org.apache.thrift.TException;

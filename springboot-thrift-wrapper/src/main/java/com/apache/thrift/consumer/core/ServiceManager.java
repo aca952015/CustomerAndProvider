@@ -2,7 +2,6 @@ package com.apache.thrift.consumer.core;
 
 
 import com.apache.thrift.consumer.pool.ServiceClientPool;
-import com.apache.thrift.consumer.proxy.JdkThriftClientProxy;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +12,7 @@ import java.lang.reflect.Proxy;
  */
 @Getter
 @Setter
-public class AppThriftServiceManager {
+public class ServiceManager {
 
     private ServiceClientPool serviceClientPool;
 
@@ -23,7 +22,7 @@ public class AppThriftServiceManager {
             throw new RuntimeException("类型错误");
         }
         T client = null;
-        JdkThriftClientProxy proxyInvocation = new JdkThriftClientProxy();
+        ClientProxy proxyInvocation = new ClientProxy();
         // 代理接口类
         proxyInvocation.setIfaceClazz(iface);
         proxyInvocation.setServiceClientPool(serviceClientPool);

@@ -1,7 +1,6 @@
-package com.apache.thrift.consumer.proxy;
+package com.apache.thrift.consumer.core;
 
 
-import com.apache.thrift.consumer.core.ServiceClient;
 import com.apache.thrift.consumer.pool.ServiceClientPool;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +13,12 @@ import java.lang.reflect.Method;
  */
 @Getter
 @Setter
-public class JdkThriftClientProxy implements InvocationHandler {
+public class ClientProxy implements InvocationHandler {
 
-    /*thrift 服务类的iface 类*/
     private Class ifaceClazz;
     private ServiceClientPool serviceClientPool;
 
-    public JdkThriftClientProxy() {
+    public ClientProxy() {
 
     }
 
@@ -29,17 +27,11 @@ public class JdkThriftClientProxy implements InvocationHandler {
         Object result = null;
 
         try {
-            ServiceClient clientInstance = serviceClientPool.getClientInstance(ifaceClazz);
 
-            long start = System.currentTimeMillis();
+            ServiceClient clientInstance = serviceClientPool.getClientInstance(ifaceClazz);
 
             //方法执行
             result = clientInstance.sendBase(method.getName(), args);
-
-            //执行时间
-            long invokeTime = System.currentTimeMillis() - start;
-
-//			System.out.println("result : "+result);
         } catch (Exception e) {
             //异常处理
             // TODO: handle exception
@@ -49,7 +41,6 @@ public class JdkThriftClientProxy implements InvocationHandler {
             // 回收
             serviceClientPool.recycleClient();
         }
-
 
         return result;
     }

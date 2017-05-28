@@ -1,4 +1,4 @@
-package com.apache.thrift.consumer.core;
+package com.apache.thrift.common;
 
 import lombok.Getter;
 

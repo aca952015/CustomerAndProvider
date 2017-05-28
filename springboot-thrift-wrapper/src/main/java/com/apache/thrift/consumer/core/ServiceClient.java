@@ -1,5 +1,7 @@
 package com.apache.thrift.consumer.core;
 
+import com.apache.thrift.common.ServiceDefinition;
+import com.apache.thrift.common.ServiceFunctionDefinition;
 import org.apache.thrift.TApplicationException;
 import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TMessage;
