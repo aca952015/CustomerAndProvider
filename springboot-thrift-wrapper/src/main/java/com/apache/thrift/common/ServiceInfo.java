@@ -17,4 +17,7 @@ import org.codehaus.jackson.map.annotate.JsonRootName;
 public class ServiceInfo {
 
     private String id;
+    private String name;
+    private String group;
+    private String version;
 }

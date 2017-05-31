@@ -1,17 +1,20 @@
 package com.apache.thrift.consumer.pool.impl;
 
 import com.apache.thrift.common.ConfigProperties;
-import com.apache.thrift.consumer.pool.SocketBuilder;
-import com.apache.thrift.consumer.pool.SocketFactory;
+import com.apache.thrift.consumer.core.SocketBuilder;
+import com.apache.thrift.consumer.core.SocketFactory;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.thrift.transport.TSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by ACA on 2017-5-28.
  */
+@Getter
+@Setter
 public class DirectSocketBuilder implements SocketBuilder {
 
-    @Autowired
     private ConfigProperties properties;
 
     @Override

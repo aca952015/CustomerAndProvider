@@ -1,7 +1,6 @@
 package com.apache.thrift.consumer.core;
 
 
-import com.apache.thrift.consumer.pool.ServiceClientPool;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,7 @@ import java.lang.reflect.Proxy;
 @Setter
 public class ServiceManager {
 
-    private ServiceClientPool serviceClientPool;
+    private ServiceClientManager serviceClientManager;
 
     public <T> T getClient(Class<T> iface) {
 
@@ -25,7 +24,7 @@ public class ServiceManager {
         ClientProxy proxyInvocation = new ClientProxy();
         // 代理接口类
         proxyInvocation.setIfaceClazz(iface);
-        proxyInvocation.setServiceClientPool(serviceClientPool);
+        proxyInvocation.setServiceClientManager(serviceClientManager);
         client = (T) Proxy.newProxyInstance(iface.getClassLoader(), new Class[]{iface}, proxyInvocation);
         return client;
     }

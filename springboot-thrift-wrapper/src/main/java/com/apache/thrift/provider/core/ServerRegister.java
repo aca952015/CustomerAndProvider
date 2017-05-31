@@ -1,10 +1,10 @@
 package com.apache.thrift.provider.core;
 
 import com.apache.thrift.common.ConfigProperties;
-import com.apache.thrift.common.Consts;
 import com.apache.thrift.common.ServiceDefinition;
 import com.apache.thrift.common.ServiceInfo;
 import com.apache.thrift.provider.ServerConfig;
+import com.apache.thrift.utils.ServiceUtils;
 import lombok.extern.log4j.Log4j;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -13,14 +13,12 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
-import org.apache.curator.x.discovery.UriSpec;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by ACA on 2017-5-28.
@@ -33,7 +31,7 @@ public class ServerRegister {
     @Autowired
     private ConfigProperties properties;
 
-    private ServiceDiscovery<ServiceInfo> serviceDiscovery;
+    private Map<String, ServiceDiscovery<ServiceInfo>> serviceDiscoveries;
     private CuratorFramework client;
     private List<ServiceInstance<ServiceInfo>> instances;
 
@@ -65,61 +63,92 @@ public class ServerRegister {
 
             log.info("zookeeper server connected.");
 
-            JsonInstanceSerializer<ServiceInfo> serializer = new JsonInstanceSerializer<>(ServiceInfo.class);
-            serviceDiscovery = ServiceDiscoveryBuilder.builder(ServiceInfo.class)
-                    .client(client)
-                    .serializer(serializer)
-                    .basePath(Consts.SERVICE_BASEPATH)
-                    .build();
-
-            serviceDiscovery.start();
-
-            log.info("service discovery started.");
+            serviceDiscoveries = new HashMap<>();
 
             instances = new ArrayList<>();
 
             for (ServiceDefinition def : ServiceDefinition.getDefs()) {
 
-                String serviceName = def.getIface().getName();
+                Class iface = def.getIface();
+                if (!ServiceUtils.isTService(iface)) {
+                    continue;
+                }
 
-                ServiceInstance<ServiceInfo> instance1 = ServiceInstance.<ServiceInfo>builder()
-                        .name(serviceName)
-                        .port(properties.getPort())
-                        .payload(new ServiceInfo(UUID.randomUUID().toString()))
-                        .build();
+                String serviceName = ServiceUtils.getName(iface);
+                String group = ServiceUtils.getGroup(iface);
+                String version = ServiceUtils.getVersion(iface);
 
-                registerService(instance1);
+                try {
+
+                    ServiceInstance<ServiceInfo> instance1 = ServiceInstance.<ServiceInfo>builder()
+                            .name(serviceName)
+                            .port(properties.getPort())
+                            .address(StringUtils.isEmpty(properties.getHost()) ? null : properties.getHost())
+                            .payload(new ServiceInfo(UUID.randomUUID().toString(), serviceName, group, version))
+                            .build();
+
+                    registerService(instance1);
+                } catch(Exception e) {
+
+                    log.error("register service failed: " + serviceName, e);
+                }
             }
         } catch(Exception e) {
-            log.error(e);
+            log.error("register service failed", e);
 
             close();
         }
     }
 
     public void close() {
-        if(serviceDiscovery != null ) {
-            try {
-                serviceDiscovery.close();
-            } catch (IOException e) {
-                log.error(e);
+        if(serviceDiscoveries != null ) {
+            for(ServiceDiscovery<ServiceInfo> serviceDiscovery : serviceDiscoveries.values()) {
+                try {
+                    serviceDiscovery.close();
+                } catch (IOException e) {
+                    log.error("destroy service discovery failed", e);
+                }
             }
         }
     }
 
+    private ServiceDiscovery<ServiceInfo> getServiceDiscovery(String group) throws Exception {
+
+        if(!serviceDiscoveries.containsKey(group)){
+
+            JsonInstanceSerializer<ServiceInfo> serializer = new JsonInstanceSerializer<>(ServiceInfo.class);
+            ServiceDiscovery<ServiceInfo> serviceDiscovery = ServiceDiscoveryBuilder.builder(ServiceInfo.class)
+                    .client(client)
+                    .serializer(serializer)
+                    .basePath(group)
+                    .build();
+
+            serviceDiscovery.start();
+            serviceDiscoveries.put(group, serviceDiscovery);
+        }
+
+        return serviceDiscoveries.get(group);
+    }
+
     public void registerService(ServiceInstance<ServiceInfo> serviceInstance) throws Exception {
+
+        ServiceDiscovery<ServiceInfo> serviceDiscovery = getServiceDiscovery(serviceInstance.getPayload().getGroup());
         serviceDiscovery.registerService(serviceInstance);
 
         log.info("service registered: " + serviceInstance.getName());
     }
 
     public void unregisterService(ServiceInstance<ServiceInfo> serviceInstance) throws Exception {
+
+        ServiceDiscovery<ServiceInfo> serviceDiscovery = getServiceDiscovery(serviceInstance.getPayload().getGroup());
         serviceDiscovery.unregisterService(serviceInstance);
 
         log.info("service unregistered: " + serviceInstance.getName());
     }
 
     public void updateService(ServiceInstance<ServiceInfo> serviceInstance) throws Exception {
+
+        ServiceDiscovery<ServiceInfo> serviceDiscovery = getServiceDiscovery(serviceInstance.getPayload().getGroup());
         serviceDiscovery.updateService(serviceInstance);
 
         log.info("service updated: " + serviceInstance.getName());

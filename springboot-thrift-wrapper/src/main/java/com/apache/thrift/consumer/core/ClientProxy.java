@@ -1,7 +1,6 @@
 package com.apache.thrift.consumer.core;
 
 
-import com.apache.thrift.consumer.pool.ServiceClientPool;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +15,7 @@ import java.lang.reflect.Method;
 public class ClientProxy implements InvocationHandler {
 
     private Class ifaceClazz;
-    private ServiceClientPool serviceClientPool;
+    private ServiceClientManager serviceClientManager;
 
     public ClientProxy() {
 
@@ -25,21 +24,22 @@ public class ClientProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
         Object result = null;
+        ServiceClient clientInstance = serviceClientManager.getClientInstance(ifaceClazz);
 
         try {
-
-            ServiceClient clientInstance = serviceClientPool.getClientInstance(ifaceClazz);
 
             //方法执行
             result = clientInstance.sendBase(method.getName(), args);
         } catch (Exception e) {
-            //异常处理
-            // TODO: handle exception
 
+            //异常处理
             e.printStackTrace();
+
+            serviceClientManager.destroyClient(clientInstance);
         } finally {
+
             // 回收
-            serviceClientPool.recycleClient();
+            serviceClientManager.recycleClient(clientInstance);
         }
 
         return result;

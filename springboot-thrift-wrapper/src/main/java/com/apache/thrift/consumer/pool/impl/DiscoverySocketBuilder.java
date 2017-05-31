@@ -1,10 +1,10 @@
 package com.apache.thrift.consumer.pool.impl;
 
 import com.apache.thrift.common.ConfigProperties;
-import com.apache.thrift.common.Consts;
 import com.apache.thrift.common.ServiceInfo;
-import com.apache.thrift.consumer.pool.SocketBuilder;
-import com.apache.thrift.consumer.pool.SocketFactory;
+import com.apache.thrift.consumer.core.SocketBuilder;
+import com.apache.thrift.consumer.core.SocketFactory;
+import com.apache.thrift.utils.ServiceUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.Getter;
@@ -24,6 +24,7 @@ import org.apache.curator.x.discovery.strategies.RandomStrategy;
 import org.apache.thrift.transport.TSocket;
 
 import java.io.Closeable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class DiscoverySocketBuilder implements SocketBuilder {
     private ConfigProperties properties;
 
     private CuratorFramework client;
-    private ServiceDiscovery<ServiceInfo> serviceDiscovery;
+    private Map<String, ServiceDiscovery<ServiceInfo>> serviceDiscoveries;
     private final Map<String, ServiceProvider<ServiceInfo>> providers = Maps.newHashMap();
     private final List<Closeable> closeableList = Lists.newArrayList();
     private final Object lock = new Object();
@@ -48,7 +49,7 @@ public class DiscoverySocketBuilder implements SocketBuilder {
 
         try {
 
-            ServiceInstance<ServiceInfo> instance = getInstanceByName(iface.getName());
+            ServiceInstance<ServiceInfo> instance = getInstanceByName(iface);
 
             return SocketFactory.newTSocket(
                     instance.getAddress(),
@@ -70,6 +71,7 @@ public class DiscoverySocketBuilder implements SocketBuilder {
     public void init() {
 
         try {
+
             log.info("registering services");
 
             String connectString = properties.getDiscoveryHost();
@@ -88,16 +90,11 @@ public class DiscoverySocketBuilder implements SocketBuilder {
                     .build();
             client.start();
 
+            closeableList.add(client);
+
+            serviceDiscoveries = new HashMap<>();
+
             log.info("zookeeper server connected.");
-
-            JsonInstanceSerializer<ServiceInfo> serializer = new JsonInstanceSerializer<>(ServiceInfo.class);
-            serviceDiscovery = ServiceDiscoveryBuilder.builder(ServiceInfo.class)
-                    .client(client)
-                    .basePath(Consts.SERVICE_BASEPATH)
-                    .serializer(serializer)
-                    .build();
-
-            serviceDiscovery.start();
         } catch(Exception e) {
 
             log.error(e);
@@ -106,17 +103,37 @@ public class DiscoverySocketBuilder implements SocketBuilder {
         }
     }
 
+    protected ServiceInstance<ServiceInfo> getInstanceByName(Class iface) throws Exception {
 
-    protected ServiceInstance<ServiceInfo> getInstanceByName(String serviceName) throws Exception {
+        String serviceName = ServiceUtils.getName(iface);
         ServiceProvider<ServiceInfo> provider = providers.get(serviceName);
         if (provider == null) {
             synchronized (lock) {
                 provider = providers.get(serviceName);
                 if (provider == null) {
+
+                    String group = ServiceUtils.getGroup(iface);
+
+                    ServiceDiscovery<ServiceInfo> serviceDiscovery = serviceDiscoveries.get(group);
+                    if(serviceDiscovery == null) {
+
+                        JsonInstanceSerializer<ServiceInfo> serializer = new JsonInstanceSerializer<>(ServiceInfo.class);
+                        serviceDiscovery = ServiceDiscoveryBuilder.builder(ServiceInfo.class)
+                                .client(client)
+                                .basePath(group)
+                                .serializer(serializer)
+                                .build();
+
+                        serviceDiscovery.start();
+                        serviceDiscoveries.put(group, serviceDiscovery);
+                        closeableList.add(serviceDiscovery);
+                    }
+
                     provider = serviceDiscovery.serviceProviderBuilder().
                             serviceName(serviceName).
                             providerStrategy(new RandomStrategy<>())
                             .build();
+
                     provider.start();
                     closeableList.add(provider);
                     providers.put(serviceName, provider);

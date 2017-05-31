@@ -5,8 +5,7 @@ import com.apache.thrift.common.ServiceDefinition;
 import com.apache.thrift.consumer.core.ClientHolder;
 import com.apache.thrift.consumer.core.ServiceFactory;
 import com.apache.thrift.consumer.core.ServiceManager;
-import com.apache.thrift.consumer.pool.ConnectionPool;
-import com.apache.thrift.consumer.pool.ServiceClientPool;
+import com.apache.thrift.consumer.core.ServiceClientManager;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TTransportFactory;
@@ -38,29 +37,19 @@ public class ClientConfig extends BaseConfig implements BeanDefinitionRegistryPo
     }
 
     @Bean
-    public ConnectionPool thriftConnectionPool(TTransportFactory transportFactory, TProtocolFactory protocolFactory) {
-        ConnectionPool connectionPool = new ConnectionPool();
-        connectionPool.setTransportFactory(transportFactory);
-        connectionPool.setProtocolFactory(protocolFactory);
-        connectionPool.setMaxConnections(100);
-        connectionPool.setMinConnections(10);
-        connectionPool.setWaitTimeout(10);
-
-        return connectionPool;
-    }
-
-    @Bean
-    public ServiceClientPool clientPool(ConnectionPool connectionPool) {
-        ServiceClientPool clientPool = new ServiceClientPool();
-        clientPool.setConnectionPool(connectionPool);
+    public ServiceClientManager clientPool(TTransportFactory transportFactory, TProtocolFactory protocolFactory) {
+        ServiceClientManager clientPool = new ServiceClientManager();
+        clientPool.setTransportFactory(transportFactory);
+        clientPool.setProtocolFactory(protocolFactory);
 
         return clientPool;
     }
 
     @Bean
-    public ServiceManager thriftServiceManager(ServiceClientPool clientPool) {
+    public ServiceManager thriftServiceManager(ServiceClientManager clientPool) {
+
         ServiceManager manager = new ServiceManager();
-        manager.setServiceClientPool(clientPool);
+        manager.setServiceClientManager(clientPool);
 
         return manager;
     }

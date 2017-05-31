@@ -2,7 +2,6 @@ package com.apache.thrift.consumer.core;
 
 import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
-import com.apache.thrift.consumer.pool.ConnectionPool;
 import com.apache.thrift.consumer.pool.impl.DirectSocketBuilder;
 import com.apache.thrift.consumer.pool.impl.DiscoverySocketBuilder;
 import lombok.extern.log4j.Log4j;
@@ -18,7 +17,7 @@ public class ClientHolder extends BaseHolder {
     private ConfigProperties properties;
 
     @Autowired
-    private ConnectionPool connectionPool;
+    private ServiceClientManager clientManager;
 
     @Override
     protected void doInit() {
@@ -29,12 +28,13 @@ public class ClientHolder extends BaseHolder {
             builder.setProperties(properties);
             builder.init();
 
-            connectionPool.setSocketBuilder(builder);
+            clientManager.setSocketBuilder(builder);
         } else {
 
-            connectionPool.setSocketBuilder(new DirectSocketBuilder());
-        }
+            DirectSocketBuilder builder = new DirectSocketBuilder();
+            builder.setProperties(properties);
 
-        connectionPool.init();
+            clientManager.setSocketBuilder(builder);
+        }
     }
 }

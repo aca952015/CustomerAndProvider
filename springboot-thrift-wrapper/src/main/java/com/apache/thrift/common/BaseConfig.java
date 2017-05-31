@@ -49,14 +49,6 @@ public abstract class BaseConfig {
 
     public void registerPackage(String basePackage) {
 
-//        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-//        scanner.addIncludeFilter(new AnnotationTypeFilter(TService.class));
-//        scanner.addIncludeFilter(new AnnotationTypeFilter(org.springframework.stereotype.Component.class));
-//        registerClasses(scanner.findCandidateComponents(basePackage)
-//                .stream()
-//                .map(beanDefinition -> ClassUtils
-//                        .resolveClassName(beanDefinition.getBeanClassName(), this.getClass().getClassLoader()))
-//                .collect(Collectors.toList()).toArray(new Class[]{}));
         registerClasses(PackageUtils.getClasses(basePackage).toArray(new Class[]{}));
     }
 }

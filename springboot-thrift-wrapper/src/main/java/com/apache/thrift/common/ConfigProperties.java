@@ -14,7 +14,7 @@ public class ConfigProperties {
     @Value("${thrift.port:9000}")
     private int port;
 
-    @Value("${thrift.host:127.0.0.1}")
+    @Value("${thrift.host:}")
     private String host;
 
     @Value("${thrift.serialization.type:fst}")

@@ -1,4 +1,4 @@
-package com.apache.thrift.consumer.pool;
+package com.apache.thrift.consumer.core;
 
 import org.apache.thrift.transport.TSocket;
 

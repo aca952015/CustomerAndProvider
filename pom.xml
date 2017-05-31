@@ -38,6 +38,7 @@
         <fst.version>2.50</fst.version>
         <zookeeper.version>3.4.10</zookeeper.version>
         <curator.version>2.12.0</curator.version>
+        <pool.version>2.4.2</pool.version>
     </properties>
 
     <repositories>
@@ -135,6 +136,11 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>kryo</artifactId>
                 <version>${kyro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${pool.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

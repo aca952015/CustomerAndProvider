@@ -4,6 +4,7 @@ import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.common.ServiceDefinition;
 import com.apache.thrift.provider.ServerConfig;
+import com.apache.thrift.utils.ServiceUtils;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.transport.TTransportException;
