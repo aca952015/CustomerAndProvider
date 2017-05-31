@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 public class ServiceUtils {
 
     public static String getName(Class iface) {
-        return iface.getName() + ".v" + getVersion(iface);
+        return iface.getName() + "/v" + getVersion(iface);
     }
 
     public static String getGroup(Class iface) {
