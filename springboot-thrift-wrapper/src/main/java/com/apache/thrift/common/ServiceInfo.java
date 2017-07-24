@@ -20,4 +20,6 @@ public class ServiceInfo {
     private String name;
     private String group;
     private String version;
+    private String host;
+    private Integer port;
 }

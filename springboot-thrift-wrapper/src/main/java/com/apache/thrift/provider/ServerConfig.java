@@ -3,7 +3,7 @@ package com.apache.thrift.provider;
 import com.apache.thrift.common.BaseConfig;
 import com.apache.thrift.provider.core.ServerContainer;
 import com.apache.thrift.provider.core.ServerHolder;
-import com.apache.thrift.provider.core.ServerRegister;
+import com.apache.thrift.provider.register.ServerRegister;
 import lombok.extern.log4j.Log4j;
 import org.springframework.context.annotation.Bean;
 

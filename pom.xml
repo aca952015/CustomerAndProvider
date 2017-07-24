@@ -39,6 +39,7 @@
         <zookeeper.version>3.4.10</zookeeper.version>
         <curator.version>2.12.0</curator.version>
         <pool.version>2.4.2</pool.version>
+        <eureka.version>1.7.0</eureka.version>
     </properties>
 
     <repositories>
@@ -141,6 +142,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-pool2</artifactId>
                 <version>${pool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.eureka</groupId>
+                <artifactId>eureka-client</artifactId>
+                <version>￥{eureka.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
