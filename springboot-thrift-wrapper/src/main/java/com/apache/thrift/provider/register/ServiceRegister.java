@@ -7,25 +7,15 @@ import com.apache.thrift.provider.ServerConfig;
 import com.apache.thrift.utils.ServiceUtils;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import org.apache.curator.RetryPolicy;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.apache.curator.x.discovery.ServiceDiscovery;
-import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
-import org.apache.curator.x.discovery.ServiceInstance;
-import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by ACA on 2017-5-28.
  */
 @Log4j
-public class ServerRegister {
+public class ServiceRegister {
 
     private ServerConfig config;
 
@@ -33,9 +23,9 @@ public class ServerRegister {
     private ConfigProperties properties;
 
     @Setter
-    private ServerRegisterEntry entry;
+    private ServiceRegisterEntry entry;
 
-    public ServerRegister(ServerConfig config) {
+    public ServiceRegister(ServerConfig config) {
         this.config = config;
     }
 
@@ -75,6 +65,6 @@ public class ServerRegister {
 
     public void close() {
 
+        entry.close();
     }
-
 }

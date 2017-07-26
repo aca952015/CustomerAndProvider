@@ -2,7 +2,7 @@ package com.apache.thrift.provider.register.impl;
 
 import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.common.ServiceInfo;
-import com.apache.thrift.provider.register.ServerRegisterEntry;
+import com.apache.thrift.provider.register.ServiceRegisterEntry;
 import lombok.extern.log4j.Log4j;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -22,14 +22,14 @@ import java.util.Map;
  * Created by aca on 2017/7/24.
  */
 @Log4j
-public class ZookeeperServerRegisterEntry implements ServerRegisterEntry {
+public class ZookeeperServiceRegisterEntry implements ServiceRegisterEntry {
 
     private ConfigProperties properties;
 
     private Map<String, ServiceDiscovery<ServiceInfo>> serviceDiscoveries;
     private CuratorFramework client;
 
-    public ZookeeperServerRegisterEntry(ConfigProperties properties) {
+    public ZookeeperServiceRegisterEntry(ConfigProperties properties) {
 
         this.properties = properties;
 

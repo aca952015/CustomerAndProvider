@@ -3,7 +3,7 @@ package com.apache.thrift.provider;
 import com.apache.thrift.common.BaseConfig;
 import com.apache.thrift.provider.core.ServerContainer;
 import com.apache.thrift.provider.core.ServerHolder;
-import com.apache.thrift.provider.register.ServerRegister;
+import com.apache.thrift.provider.register.ServiceRegister;
 import lombok.extern.log4j.Log4j;
 import org.springframework.context.annotation.Bean;
 
@@ -24,7 +24,7 @@ public class ServerConfig extends BaseConfig {
     }
 
     @Bean
-    public ServerRegister serverRegister() {
-        return new ServerRegister(this);
+    public ServiceRegister serverRegister() {
+        return new ServiceRegister(this);
     }
 }

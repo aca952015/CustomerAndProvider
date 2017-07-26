@@ -2,6 +2,8 @@ package com.apache.thrift.consumer.core;
 
 import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
+import com.apache.thrift.consumer.discovery.ServiceDiscovery;
+import com.apache.thrift.consumer.discovery.ServiceDiscoveryFactory;
 import com.apache.thrift.consumer.pool.impl.DirectSocketBuilder;
 import com.apache.thrift.consumer.pool.impl.DiscoverySocketBuilder;
 import lombok.extern.log4j.Log4j;
@@ -26,7 +28,7 @@ public class ClientHolder extends BaseHolder {
 
             DiscoverySocketBuilder builder = new DiscoverySocketBuilder();
             builder.setProperties(properties);
-            builder.init();
+            builder.setServiceDiscovery(ServiceDiscoveryFactory.build(properties));
 
             clientManager.setSocketBuilder(builder);
         } else {

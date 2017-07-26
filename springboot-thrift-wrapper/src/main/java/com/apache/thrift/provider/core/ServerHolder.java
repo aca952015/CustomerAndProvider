@@ -2,11 +2,11 @@ package com.apache.thrift.provider.core;
 
 import com.apache.thrift.common.BaseHolder;
 import com.apache.thrift.common.ConfigProperties;
-import com.apache.thrift.common.Consts;
 import com.apache.thrift.common.ServiceDefinition;
 import com.apache.thrift.provider.ServerConfig;
-import com.apache.thrift.provider.register.ServerRegister;
-import com.apache.thrift.provider.register.impl.ZookeeperServerRegisterEntry;
+import com.apache.thrift.provider.register.ServiceRegister;
+import com.apache.thrift.provider.register.ServiceRegisterEntry;
+import com.apache.thrift.provider.register.ServiceRegisterEntryFactory;
 import lombok.extern.log4j.Log4j;
 import org.apache.thrift.TMultiplexedProcessor;
 import org.apache.thrift.transport.TTransportException;
@@ -24,7 +24,7 @@ public class ServerHolder extends BaseHolder {
     private ServerContainer container;
 
     @Autowired
-    private ServerRegister register;
+    private ServiceRegister register;
 
     @Autowired
     private ConfigProperties properties;
@@ -78,8 +78,9 @@ public class ServerHolder extends BaseHolder {
 
             if(properties.isDiscoveryEnabled()) {
 
-                if(Consts.REGISTER_CENTER_ZOOKEEPER.equals(properties.getDiscoveryType())) {
-                    register.setEntry(new ZookeeperServerRegisterEntry(properties));
+                ServiceRegisterEntry entry = ServiceRegisterEntryFactory.build(properties);
+                if(entry != null) {
+                    register.setEntry(entry);
                     register.init();
                 }
             }
