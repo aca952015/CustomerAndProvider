@@ -8,4 +8,5 @@ public class Consts {
     public static final String SERVICE_BASE_GROUP = "thrift/services";
     public static final String SERVICE_BASE_VERSION = "1.0.0";
     public static final String REGISTER_CENTER_ZOOKEEPER = "zookeeper";
+    public static final String REGISTER_CENTER_EUREKA = "eureka";
 }

@@ -40,6 +40,7 @@
         <curator.version>2.12.0</curator.version>
         <pool.version>2.4.2</pool.version>
         <eureka.version>1.7.0</eureka.version>
+        <inject.version>1</inject.version>
     </properties>
 
     <repositories>
@@ -79,6 +80,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${inject.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -146,7 +152,7 @@
             <dependency>
                 <groupId>com.netflix.eureka</groupId>
                 <artifactId>eureka-client</artifactId>
-                <version>￥{eureka.version}</version>
+                <version>${eureka.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
