@@ -41,6 +41,7 @@
         <pool.version>2.4.2</pool.version>
         <eureka.version>1.7.0</eureka.version>
         <inject.version>1</inject.version>
+        <etcd.version>2.13.0</etcd.version>
     </properties>
 
     <repositories>
@@ -158,6 +159,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mousio</groupId>
+                <artifactId>etcd4j</artifactId>
+                <version>${etcd.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
