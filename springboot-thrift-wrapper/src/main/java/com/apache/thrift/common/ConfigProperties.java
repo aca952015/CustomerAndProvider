@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 @Setter
 public class ConfigProperties {
 
+    @Value("${spring.application.name:thrift-app}")
+    private String name;
+
     @Value("${thrift.port:9000}")
     private int port;
 

@@ -23,7 +23,7 @@ public class BlogServiceImpl implements BlogService {
 
         UserProfile profile = new UserProfile();
         profile.setId(id);
-        profile.setName("name" + id);
+        profile.setName("path" + id);
 
         List<Blog> blogs = new ArrayList<>();
         for(int pos = 0; pos < 10; pos++) {

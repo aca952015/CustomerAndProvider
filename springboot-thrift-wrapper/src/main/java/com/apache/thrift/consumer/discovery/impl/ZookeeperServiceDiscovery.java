@@ -4,6 +4,7 @@ import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.common.ServiceInfo;
 import com.apache.thrift.consumer.discovery.ServiceDiscovery;
 import com.apache.thrift.utils.ServiceUtils;
+import com.apache.thrift.utils.ZookeeperUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.log4j.Log4j;
@@ -88,7 +89,7 @@ public class ZookeeperServiceDiscovery implements ServiceDiscovery {
 
     private ServiceInstance<ServiceInfo> getInstanceByName(Class iface) throws Exception {
 
-        String serviceName = ServiceUtils.getName(iface);
+        String serviceName = ZookeeperUtils.getPath(ServiceUtils.getName(iface), ServiceUtils.getVersion(iface));
         ServiceProvider<ServiceInfo> provider = providers.get(serviceName);
         if (provider == null) {
             synchronized (lock) {

@@ -47,7 +47,7 @@ public class ServerProcessor implements org.apache.thrift.TProcessor {
         if (fn == null) {
             TProtocolUtil.skip(in, (byte) 12);
             in.readMessageEnd();
-            TApplicationException x = new TApplicationException(1, "Invalid method name: '" + msg.name + "'");
+            TApplicationException x = new TApplicationException(1, "Invalid method path: '" + msg.name + "'");
             out.writeMessageBegin(new TMessage(msg.name, (byte) 3, msg.seqid));
             x.write(out);
             out.writeMessageEnd();

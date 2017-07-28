@@ -131,7 +131,7 @@ button{
 		<div class="regist-box">
 			<div>注册</div>
 			<label>用户名</label>
-			<input type="text" name="leftRegistName" id="leftRegistName"   value="jason" >
+			<input type="text" path="leftRegistName" id="leftRegistName"   value="jason" >
 			<br>
 			<button id="leftRegistBtn" >注册用户</button>
 			<div style="color:red;text-align :center; " id="leftRegistStatus"></div>
@@ -150,9 +150,9 @@ button{
 			<div>聊天</div>
 
 			<label>接受名</label>
-			<input type="text" name="leftReceiveName" id="leftReceiveName" value="小黑"  >
+			<input type="text" path="leftReceiveName" id="leftReceiveName" value="小黑"  >
 			<br>
-			<input type="text" name="leftContent" id="leftContent" value="小黑你好呀"  >
+			<input type="text" path="leftContent" id="leftContent" value="小黑你好呀"  >
 			<br>
 			<button id="leftSendBtn" >发送消息</button>
 
@@ -180,7 +180,7 @@ button{
 		<div class="regist-box">
 			<div>注册</div>
 			<label>用户名</label>
-			<input type="text" name="registName" id="registName"  value="小黑">
+			<input type="text" path="registName" id="registName"  value="小黑">
 			<br>
 			<button id="registBtn" >注册用户</button>
 			<div   style="color:red;text-align :center; " id="registStatus"></div>
@@ -199,9 +199,9 @@ button{
 			<div>聊天</div>
 
 			<label>接受名</label>
-			<input type="text" name="receiveName" id="receiveName"  value="jason">
+			<input type="text" path="receiveName" id="receiveName"  value="jason">
 			<br>
-			<input type="text" name="content" id="content"  value="jason你好呀"   >
+			<input type="text" path="content" id="content"  value="jason你好呀"   >
 			<br>
 			<button id="sendBtn" >发送消息</button>
 
@@ -317,7 +317,7 @@ function WebSocketMessage (msgType , sendName , receiveName , content ) {
 
 
 function AppWebSocket(url){
-	this.name = null;
+	this.path = null;
 	this.isOpen = false;
 	this.socket =  null;
 	//关闭

@@ -3,6 +3,7 @@ package com.apache.thrift.provider.register.impl;
 import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.common.ServiceInfo;
 import com.apache.thrift.provider.register.ServiceRegisterEntry;
+import com.apache.thrift.utils.ZookeeperUtils;
 import lombok.extern.log4j.Log4j;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
@@ -57,8 +58,10 @@ public class ZookeeperServiceRegisterEntry implements ServiceRegisterEntry {
     @Override
     public void register(ServiceInfo info) throws Exception {
 
+        String path = ZookeeperUtils.getPath(info.getName(), info.getVersion());
+
         ServiceInstance<ServiceInfo> instance = ServiceInstance.<ServiceInfo>builder()
-                .name(info.getName())
+                .name(path)
                 .port(properties.getPort())
                 .address(StringUtils.isEmpty(properties.getHost()) ? null : properties.getHost())
                 .payload(info)
