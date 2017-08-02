@@ -1,8 +1,10 @@
 package com.istudio.thrift.server.impl;
 
+import com.google.common.collect.Lists;
 import com.istudio.thrift.service.Blog;
 import com.istudio.thrift.service.BlogService;
 import com.istudio.thrift.service.UserProfile;
+import com.istudio.thrift.service.UserQuery;
 import lombok.extern.log4j.Log4j;
 import org.springframework.stereotype.Component;
 
@@ -37,5 +39,11 @@ public class BlogServiceImpl implements BlogService {
         profile.setBlogs(blogs);
 
         return profile;
+    }
+
+    @Override
+    public List<UserProfile> query(UserQuery query) {
+
+        return Lists.newArrayList(find(query.getId()));
     }
 }

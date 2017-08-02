@@ -3,11 +3,13 @@ package com.istudio.thrift.client;
 import com.istudio.thrift.service.BlogService;
 import com.istudio.thrift.service.CalcService;
 import com.istudio.thrift.service.UserProfile;
+import com.istudio.thrift.service.UserQuery;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication
 public class ThriftSpringbootClientApplication {
@@ -29,7 +31,11 @@ public class ThriftSpringbootClientApplication {
 
 			for(int pos = 0; pos < 500; pos++) {
 				//calcClient.plus(123, 4556);
-				UserProfile profile = blogService.find(pos);
+				UserQuery query = new UserQuery();
+				query.setId(pos);
+
+				List<UserProfile> profiles = blogService.query(query);
+				System.out.println(profiles.get(0).getId());
 				//System.out.println(profile.getBlogs().size());
 			}
 
