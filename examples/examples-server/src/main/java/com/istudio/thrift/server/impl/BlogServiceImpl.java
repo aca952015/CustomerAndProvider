@@ -19,7 +19,11 @@ import java.util.List;
 public class BlogServiceImpl implements BlogService {
 
     @Override
-    public UserProfile find(int id) {
+    public UserProfile find(int id) throws Exception {
+
+        if(id % 10 == 0) {
+            throw new Exception("user not found.");
+        }
 
         log.info("blog service: find " + id);
 
@@ -42,7 +46,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<UserProfile> query(UserQuery query) {
+    public List<UserProfile> query(UserQuery query) throws Exception {
 
         return Lists.newArrayList(find(query.getId()));
     }

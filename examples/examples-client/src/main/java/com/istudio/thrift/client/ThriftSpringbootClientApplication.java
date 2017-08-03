@@ -30,13 +30,16 @@ public class ThriftSpringbootClientApplication {
 			int called = 0;
 
 			for(int pos = 0; pos < 500; pos++) {
-				//calcClient.plus(123, 4556);
-				UserQuery query = new UserQuery();
-				query.setId(pos);
 
-				List<UserProfile> profiles = blogService.query(query);
-				System.out.println(profiles.get(0).getId());
-				//System.out.println(profile.getBlogs().size());
+				try {
+					UserQuery query = new UserQuery();
+					query.setId(pos);
+
+					List<UserProfile> profiles = blogService.query(query);
+					System.out.println(profiles.get(0).getId());
+				} catch(Exception ex) {
+					System.out.println(ex.getMessage());
+				}
 			}
 
 			Date t2 = new Date();

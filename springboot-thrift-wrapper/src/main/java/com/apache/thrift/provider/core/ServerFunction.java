@@ -52,13 +52,13 @@ public class ServerFunction {
         try {
             result = this.getResult(values);
 
-        } catch (Exception var10) {
+        } catch (Exception e) {
 
-            log.error("Internal error processing " + this.def.getMethodName(), var10);
+            log.error("Internal error processing " + this.def.getMethodName(), e);
 
             if(!this.isOneway()) {
 
-                TApplicationException x = new TApplicationException(6, "Internal error processing " + this.def.getMethodName());
+                TApplicationException x = new TApplicationException(6, e.getCause().getMessage());
                 oprot.writeMessageBegin(new TMessage(this.def.getMethodName(), (byte)3, seqid));
                 x.write(oprot);
                 oprot.writeMessageEnd();

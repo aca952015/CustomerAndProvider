@@ -10,7 +10,7 @@ import java.util.List;
 @TService
 public interface BlogService {
 
-    UserProfile find(int id);
+    UserProfile find(int id) throws Exception;
 
-    List<UserProfile> query(UserQuery query);
+    List<UserProfile> query(UserQuery query) throws Exception;
 }
