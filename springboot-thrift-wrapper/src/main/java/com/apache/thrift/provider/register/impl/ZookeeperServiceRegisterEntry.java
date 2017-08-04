@@ -13,7 +13,6 @@ import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
 import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.curator.x.discovery.details.JsonInstanceSerializer;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -62,8 +61,8 @@ public class ZookeeperServiceRegisterEntry implements ServiceRegisterEntry {
 
         ServiceInstance<ServiceInfo> instance = ServiceInstance.<ServiceInfo>builder()
                 .name(path)
-                .port(properties.getPort())
-                .address(StringUtils.isEmpty(properties.getHost()) ? null : properties.getHost())
+                .port(info.getPort())
+                .address(info.getHost())
                 .payload(info)
                 .build();
 

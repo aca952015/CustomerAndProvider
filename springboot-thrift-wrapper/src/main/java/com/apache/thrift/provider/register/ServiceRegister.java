@@ -4,11 +4,13 @@ import com.apache.thrift.common.ConfigProperties;
 import com.apache.thrift.common.ServiceDefinition;
 import com.apache.thrift.common.ServiceInfo;
 import com.apache.thrift.provider.ServerConfig;
+import com.apache.thrift.utils.NetworkUtils;
 import com.apache.thrift.utils.ServiceUtils;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -50,7 +52,7 @@ public class ServiceRegister implements DisposableBean {
 
                 try {
 
-                    ServiceInfo info = new ServiceInfo(UUID.randomUUID().toString(), name, group, version, properties.getHost(), properties.getPort());
+                    ServiceInfo info = new ServiceInfo(UUID.randomUUID().toString(), name, group, version, StringUtils.isEmpty(properties.getHost()) ? NetworkUtils.getLocalAddress() : properties.getHost(), properties.getPort());
                     entry.register(info);
                 } catch(Exception e) {
 
